@@ -3,113 +3,105 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anrzepec <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bleveque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/06 15:35:57 by anrzepec          #+#    #+#             */
-/*   Updated: 2018/11/11 17:08:27 by anrzepec         ###   ########.fr       */
+/*   Created: 2018/11/11 12:05:49 by bleveque          #+#    #+#             */
+/*   Updated: 2019/03/26 17:47:15 by bleveque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void		ft_set_words(char const *str, char **tab, int words, char i)
+static int	words(char const *s, char x)
 {
-	int c;
-	int x;
-	int y;
+	int	i;
+	int	c;
 
+	i = 1;
 	c = 0;
-	x = 0;
-	while (str[c] != '\0')
+	if (s[0] != x && s[0] != '\0')
+		c++;
+	while (s[i] != '\0')
 	{
-		y = 0;
-		while (str[c] == i)
+		if (s[i - 1] == x && s[i] != x && s[i] != '\0')
 			c++;
-		while (str[c] != i && (str[c]))
+		i++;
+	}
+	return (c);
+}
+
+static int	letters(char const *s, char x, int pos)
+{
+	int	i;
+	int c;
+	int k;
+
+	i = 0;
+	c = 0;
+	k = 0;
+	while (s[i] != '\0')
+	{
+		while (s[i] == x && s[i] != '\0')
+			i++;
+		while (s[i] != x && s[i] != '\0')
 		{
-			tab[x][y] = str[c];
-			c++;
+			if ((s[0] != x && pos == 0 && k == 0) || k == pos)
+				c++;
+			if (s[i + 1] == x)
+				k++;
+			i++;
+		}
+	}
+	return (c);
+}
+
+void		ft_fill(char const *s, char *str, char x, int pos)
+{
+	int	i;
+	int y;
+	int	k;
+
+	i = 0;
+	y = 0;
+	k = 0;
+	while (s[y] != '\0')
+	{
+		while (s[y] == x && s[y] != '\0')
+			y++;
+		while (s[y] != x && s[y] != '\0')
+		{
+			if ((s[0] != x && pos == 0 && k == 0) || k == pos)
+			{
+				str[i] = s[y];
+				i++;
+			}
+			if (s[y + 1] == x)
+				k++;
 			y++;
 		}
-		if (x < words)
-			tab[x][y] = '\0';
-		x++;
 	}
+	str[i] = '\0';
 }
 
-static void		ft_word_length(char const *str, int *ptr, int words, char i)
-{
-	int c;
-	int x;
-
-	x = 0;
-	c = 0;
-	while (str[c] != '\0')
-	{
-		if (x < words)
-			ptr[x] = 0;
-		while (str[c] == i)
-			c++;
-		while (str[c] != i && (str[c]))
-		{
-			ptr[x] += 1;
-			c++;
-		}
-		if (x < words)
-			ptr[x] += 1;
-		x++;
-	}
-}
-
-static int		ft_word_count(char const *str, char c)
-{
-	int x;
-	int words;
-	int a;
-
-	a = 1;
-	x = 0;
-	words = 0;
-	if (str)
-	{
-		while (str[x])
-		{
-			if (str[x] == c)
-				a = 1;
-			if (str[x] != c && (a))
-			{
-				a = 0;
-				words++;
-			}
-			x++;
-		}
-	}
-	return (words);
-}
-
-char			**ft_strsplit(char const *s, char c)
+char		**ft_strsplit(char const *s, char c)
 {
 	char	**tab;
-	int		*ptr;
-	int		words;
-	int		x;
+	int		nb_words;
+	int		i;
 
-	words = ft_word_count(s, c);
-	if (!(tab = (char**)malloc(sizeof(char*) * (words + 1))))
+	i = 0;
+	if (!(s))
 		return (NULL);
-	if (!(ptr = (int*)malloc(sizeof(int) * words)))
+	nb_words = words(s, c);
+	if (!(tab = (char**)malloc(sizeof(char*) * (nb_words + 1))))
 		return (NULL);
-	if (!words)
+	while (i < nb_words)
 	{
-		*tab = 0;
-		return (tab);
-	}
-	ft_word_length(s, ptr, words, c);
-	x = -1;
-	while (++x < words)
-		if (!(tab[x] = (char*)malloc(sizeof(char) * ptr[x])))
+		if (!(tab[i] = (char*)malloc(sizeof(char*) * (letters(s, c, i) + 1))))
 			return (NULL);
-	tab[x] = NULL;
-	ft_set_words(s, tab, words, c);
+		ft_fill(s, tab[i], c, i);
+		i++;
+	}
+	tab[i] = NULL;
 	return (tab);
 }

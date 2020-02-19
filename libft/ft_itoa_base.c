@@ -3,104 +3,96 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa_base.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anrzepec <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bleveque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/03 12:25:58 by anrzepec          #+#    #+#             */
-/*   Updated: 2019/01/07 17:05:38 by anrzepec         ###   ########.fr       */
+/*   Created: 2018/11/16 17:35:20 by bleveque          #+#    #+#             */
+/*   Updated: 2019/02/25 17:15:29 by bleveque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		get_base(char *base)
+static long long	ft_base_check(const char *base)
 {
-	char	*buff;
-	int		i;
+	long long	i;
+	long long	j;
 
-	i = 0;
-	if (!(buff = (char*)ft_memalloc(ft_strlen(base))))
+	i = 1;
+	if (!base)
 		return (0);
-	while (base[i])
+	if (ft_strlen(base) < 2)
 	{
-		if (ft_strchr(buff, (int)base[i]))
-			return (0);
-		buff[i] = base[i];
-		i++;
+		ft_putstr("Fail : Your base must have at least 2 char\n");
+		return (0);
 	}
-	ft_strdel(&buff);
-	return (i);
-}
-
-int		get_int_divlen(unsigned long long int nb, int div)
-{
-	int	len;
-
-	len = 0;
-	while (nb)
+	while (base[i] != '\0')
 	{
-		nb = nb / div;
-		len++;
-	}
-	return ((len = len == 0 ? 1 : len));
-}
-
-int		add_negative_sign(char **s, int neg)
-{
-	char *tmp;
-
-	tmp = NULL;
-	if (neg)
-	{
-		if (!(tmp = ft_strjoin("-", *s)))
-			return (0);
-		ft_strdel(s);
-		*s = tmp;
+		j = -1 + i;
+		while (base[++i])
+		{
+			if (base[i] == base[j])
+			{
+				ft_putstr("Fail : Your base must have different chars\n");
+				return (0);
+			}
+		}
+		i = ++j + 1;
 	}
 	return (1);
 }
 
-char	*ft_set_itoa(unsigned long long nb, char *base, int s_len, int n)
+static long long	ft_maxpow(long long nb, long long baselen)
 {
-	char	*tmp;
-	int		res;
-	char	*s;
-	int		i;
+	long long	i;
 
 	i = 0;
-	tmp = NULL;
-	if (!(res = get_base(base)))
-		return (NULL);
-	s_len = get_int_divlen(nb, res);
-	if (!(s = (char*)malloc(sizeof(char) * (s_len + 1))))
-		return (NULL);
-	if (!nb)
-		s[0] = base[0];
-	while (nb)
+	nb = (nb < 0) ? nb : -nb;
+	while (nb < -baselen)
 	{
-		s[s_len - i - 1] = base[(unsigned long long int)nb % res];
-		nb = nb / res;
+		nb = nb / baselen;
 		i++;
 	}
-	s[s_len] = '\0';
-	if (!add_negative_sign(&s, n))
-		return (NULL);
-	return (s);
+	if (nb == -baselen)
+		i++;
+	return (i);
 }
 
-char	*ft_itoa_base(long long int nb, char *base)
+static long long	ft_powerbase(long long nb, long long power)
 {
-	int		len;
-	char	*s;
+	if (nb == 1)
+		return (1);
+	else if (power == 0)
+		return (1);
+	else if (power < 0)
+		return (0);
+	else
+		return (nb * ft_powerbase(nb, power - 1));
+}
 
-	if (!base)
+char				*ft_itoa_base(long long nb, const char *base)
+{
+	long long		base_len;
+	char			*str;
+	long long		i;
+	long long		c;
+	int				sign;
+
+	if (!(ft_base_check(base)))
 		return (NULL);
-	len = 0;
-	if (nb >= 0)
+	base_len = ft_strlen(base);
+	i = ft_maxpow(nb, base_len);
+	sign = (nb < 0) ? 3 : 2;
+	if (!(str = (char*)ft_memalloc(sizeof(char) * i + sign)))
+		return (NULL);
+	str[0] = '-';
+	c = (nb < 0) ? 1 : 0;
+	nb = (nb < 0) ? nb : -nb;
+	while (i >= 0)
 	{
-		if (!(s = ft_set_itoa(nb, base, len, 0)))
-			return (NULL);
+		str[c] = base[(nb / -ft_powerbase(base_len, i))];
+		nb = nb % ft_powerbase(base_len, i--);
+		c++;
 	}
-	else if (!(s = ft_set_itoa(nb * -1, base, len, 1)))
-		return (NULL);
-	return (s);
+	str[c] = '\0';
+	return (str);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strmapi.c                                       :+:      :+:    :+:   */
+/*   ft_strmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anrzepec <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bleveque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/07 21:19:55 by anrzepec          #+#    #+#             */
-/*   Updated: 2018/11/09 16:27:28 by anrzepec         ###   ########.fr       */
+/*   Created: 2018/11/09 15:48:39 by bleveque          #+#    #+#             */
+/*   Updated: 2018/11/22 16:43:48 by bleveque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,21 @@
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	char	*str;
-	int		c;
+	char	*copy;
+	int		i;
+	int		len;
 
-	c = 0;
-	if (s && f)
+	if (!(s) || !(f))
+		return (NULL);
+	i = 0;
+	len = ft_strlen(s);
+	if (!(copy = (char*)malloc(sizeof(char) * len + 1)))
+		return (NULL);
+	while (i < len)
 	{
-		while (s[c])
-			c++;
-		if (!(str = (char*)malloc(sizeof(char) * (c + 1))))
-			return (NULL);
-		c = -1;
-		while (s[++c])
-			str[c] = (*f)(c, s[c]);
-		str[c] = '\0';
-		return (str);
+		copy[i] = f(i, s[i]);
+		i++;
 	}
-	return (NULL);
+	copy[i] = '\0';
+	return (copy);
 }

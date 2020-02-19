@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anrzepec <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bleveque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/06 14:59:44 by anrzepec          #+#    #+#             */
-/*   Updated: 2018/11/09 14:26:40 by anrzepec         ###   ########.fr       */
+/*   Created: 2018/11/09 16:33:35 by bleveque          #+#    #+#             */
+/*   Updated: 2018/11/11 15:36:15 by bleveque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void	ft_putchar(char c)
 {
-	write(1, (unsigned char*)&c, 1);
+	ft_putchar_fd(c, 1);
 }

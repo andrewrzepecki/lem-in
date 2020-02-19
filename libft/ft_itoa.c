@@ -3,50 +3,75 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anrzepec <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bleveque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/06 14:37:40 by anrzepec          #+#    #+#             */
-/*   Updated: 2018/11/09 14:12:54 by anrzepec         ###   ########.fr       */
+/*   Created: 2018/11/11 13:20:41 by bleveque          #+#    #+#             */
+/*   Updated: 2019/02/11 12:13:01 by bleveque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	get_divider(int n)
+static int	ft_len(int n)
 {
-	int c;
+	int i;
 
-	c = 1;
-	while ((n = n / 10) != 0)
-		c *= 10;
-	return (c);
+	i = 1;
+	while (n >= 10)
+	{
+		n = n / 10;
+		i++;
+	}
+	return (i);
+}
+
+static char	*minint(int n)
+{
+	char	*str;
+	int		i;
+
+	i = 10;
+	str = NULL;
+	if (!(str = (char*)malloc(sizeof(char) * 12)))
+		return (NULL);
+	str[0] = '-';
+	str[1] = '2';
+	str[11] = '\0';
+	n = 147483648;
+	while (n >= 1)
+	{
+		str[i] = n % 10 + 48;
+		i--;
+		n = n / 10;
+	}
+	return (str);
 }
 
 char		*ft_itoa(int n)
 {
+	int		len;
+	int		sign;
 	char	*str;
-	int		divider;
-	int		tmp;
-	int		c;
 
-	divider = (n < 0) ? 2 : 1;
-	tmp = n;
-	while ((tmp = tmp / 10) != 0)
-		divider++;
-	if (!(str = (char*)malloc(sizeof(char) * (divider + 1))))
-		return (NULL);
-	tmp = 0;
+	sign = 0;
+	if (n == -2147483648)
+		return (minint(n));
 	if (n < 0)
-		str[0] = '-';
-	c = (n < 0) ? 1 : 0;
-	divider = (n < 0) ? (get_divider(n) * -1) : get_divider(n);
-	while (divider > 1 || divider < -1)
 	{
-		str[c++] = n / divider + 48;
-		n %= divider;
-		divider /= 10;
+		n = -n;
+		sign = 1;
 	}
-	str[c] = (n < 0) ? (n * -1 + 48) : n + 48;
-	str[c + 1] = '\0';
+	len = ft_len(n) - 1;
+	if (!(str = (char*)malloc(sizeof(char) * len + sign + 2)))
+		return (NULL);
+	str[len + 1 + sign] = '\0';
+	str[0] = (n == 0) ? '0' : str[0];
+	while (n > 0)
+	{
+		str[len + sign] = n % 10 + 48;
+		len--;
+		n = n / 10;
+	}
+	str[0] = (sign == 1) ? '-' : str[0];
 	return (str);
 }

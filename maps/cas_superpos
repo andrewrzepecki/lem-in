@@ -1,0 +1,20 @@
+14
+##start
+start 3 0
+mid0 3 1
+left0 2 1
+right0 4 1
+left1 2 2
+right1 4 2
+##end
+end 3 2
+start-mid0
+start-left0
+start-right0
+left0-mid0
+right0-mid0
+mid0-right1
+mid0-left1
+right1-end
+left1-end
+mid0-end

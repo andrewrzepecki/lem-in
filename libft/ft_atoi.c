@@ -3,38 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anrzepec <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bleveque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/06 14:43:20 by anrzepec          #+#    #+#             */
-/*   Updated: 2018/11/13 10:54:32 by anrzepec         ###   ########.fr       */
+/*   Created: 2018/11/09 10:33:03 by bleveque          #+#    #+#             */
+/*   Updated: 2019/03/25 15:53:41 by bleveque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int			ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
-	int			c;
-	int			res;
-	int			neg;
+	int	integer;
+	int	sign;
 
-	neg = 1;
-	res = 0;
-	c = 0;
-	while (str[c] == '\t' || str[c] == '\n' || str[c] == '\r' || str[c] == '\v'
-			|| str[c] == '\f' || str[c] == ' ')
-		c++;
-	if (str[c] == '-' || str[c] == '+')
+	integer = 0;
+	sign = 1;
+	while (*str == ' ' || *str == '\t' || *str == '\n' || *str == '\v' ||
+			*str == '\f' || *str == '\r')
+		str++;
+	if (*str == '-' || *str == '+')
 	{
-		if (str[c] == '-')
-			neg = -1;
-		c++;
+		if (*str == '-')
+			sign = -1;
+		str++;
 	}
-	while (str[c] >= '0' && str[c] <= '9')
+	while (*str >= 48 && *str <= 57)
 	{
-		res = res * 10 + (str[c] - '0');
-		c++;
+		integer = integer * 10 + *str - 48;
+		str++;
 	}
-	res *= neg;
-	return (res);
+	return (integer * sign);
 }

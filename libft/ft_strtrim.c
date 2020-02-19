@@ -3,73 +3,68 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anrzepec <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: bleveque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/06 15:40:14 by anrzepec          #+#    #+#             */
-/*   Updated: 2018/11/08 21:34:14 by anrzepec         ###   ########.fr       */
+/*   Created: 2018/11/11 10:48:31 by bleveque          #+#    #+#             */
+/*   Updated: 2018/11/22 12:36:36 by bleveque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char		*ft_settrim(char const *s, int *ends)
+static int		ws_beg(char const *s)
 {
-	int		c;
-	char	*str;
+	int	i;
+	int c;
 
-	if (!(str = (char*)malloc(sizeof(char) * (ends[1] - ends[0] + 2))))
-		return (NULL);
+	i = 0;
 	c = 0;
-	while (ends[0] <= ends[1])
+	while (s[i] != '\0' && (s[i] == '\n' || s[i] == ' ' || s[i] == '\t'))
 	{
-		str[c] = s[ends[0]];
+		i++;
 		c++;
-		ends[0]++;
 	}
-	str[c] = '\0';
-	return (str);
+	return (c);
 }
 
-static char		*ft_set_one(void)
+static int		ws_end(char const *s)
 {
-	char *str;
+	int	c;
+	int	i;
 
-	if (!(str = (char*)malloc(sizeof(char) * 1)))
-		return (NULL);
-	str[0] = '\0';
-	return (str);
-}
-
-static int		ft_isspace(char c)
-{
-	if (c == '\t' || c == ' ' || c == '\n')
-		return (1);
-	else
-		return (0);
+	c = 0;
+	i = ft_strlen(s) - 1;
+	while (i > 0 && (s[i] == '\n' || s[i] == ' ' || s[i] == '\t'))
+	{
+		c++;
+		i--;
+	}
+	return (c);
 }
 
 char			*ft_strtrim(char const *s)
 {
-	int		mrk[2];
-	int		c;
 	char	*str;
+	int		i;
+	int		len;
 
-	c = -1;
-	mrk[0] = 0;
-	if (!s)
-		return (NULL);
-	while (s[++c])
-		if (ft_isspace(s[c]) && c == mrk[0])
-			mrk[0]++;
-	if (mrk[0] == c)
-		return (str = ft_set_one());
-	c--;
-	mrk[1] = c;
-	while (c >= 0)
+	if (!(s))
+		return ((char*)0);
+	len = ft_strlen(s) - ws_beg(s) - ws_end(s);
+	i = 0;
+	if (ft_strlen(s) == 0 || len < 0)
 	{
-		if (ft_isspace(s[c]) && c == mrk[1])
-			mrk[1]--;
-		c--;
+		if (!(str = (char*)malloc(sizeof(char) * 1)))
+			return (NULL);
+		str[0] = '\0';
 	}
-	return (str = ft_settrim(s, mrk));
+	if (len > 0 && !(str = (char*)malloc(sizeof(char) * len + 1)))
+		return (NULL);
+	while (i < len && len > 0)
+	{
+		str[i] = s[ws_beg(s) + i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }
