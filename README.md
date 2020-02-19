@@ -1,4 +1,4 @@
-0# Lem_in
+# Lem_in
 Third Algo Project @ 42 Paris.
 
 **Project score : [124 / 100]**
