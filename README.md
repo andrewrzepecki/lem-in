@@ -1,22 +1,19 @@
-# lem-in
+# Lem_in
 Third Algo Project @ 42 Paris.
-
-
-# lem_in
 
 **Project score : [124 / 100]**
 
-Lem-in is an algorithmic project that rely upon graph theory to find the shortest paths from a point A to a point B. Each route has a maximum capacity, so we used the Edmund-Karp algorithm to improve our results.
+Lem-in is an algorithmic project that relies on graph theory to find the shortest paths from one point to another.
+Each edge of the graph between two vertices has a maximum flow of one, so we used a variation of Edmund-Karp's algorithm to optimise our results.
 
-## About lem-in
 
-At the beginning from standart output the program recieves information about number of ants had to be leaded through path, room names (can be numbers, words, characters etc.) with coordinates and links. Here is an example:
+## Installation and usage
+
+The program recieves information about number of ants had to be leaded through path, room names with coordinates and links. Here is an example:
 
 <img width="142" alt="screen shot 2017-07-16 at 7 23 13 pm" align="middle" src="https://user-images.githubusercontent.com/25576444/28254024-ea2c5eb6-6a5d-11e7-922c-5808975b2419.png" >
 
 Comments "##start" and "##end" are provided to show the start and end room information. We don't care about any other comments.
-
-## Installation and usage
 
 ```
 git clone https://github.com/barthelemyleveque/lem_in && cd lem_in && make
