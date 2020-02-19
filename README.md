@@ -9,16 +9,16 @@ Each edge of the graph between two vertices has a maximum flow of one, so we use
 
 ## Installation and usage
 
+```
+git clone https://github.com/barthelemyleveque/lem_in && cd lem_in && make
+./lem-in < maps/[ONE_OF_THE_MAPS]
+```
+
 The program recieves information about number of ants had to be leaded through path, room names with coordinates and links. Here is an example:
 
 <img width="142" alt="screen shot 2017-07-16 at 7 23 13 pm" align="middle" src="https://user-images.githubusercontent.com/25576444/28254024-ea2c5eb6-6a5d-11e7-922c-5808975b2419.png" >
 
 Comments "##start" and "##end" are provided to show the start and end room information. We don't care about any other comments.
-
-```
-git clone https://github.com/barthelemyleveque/lem_in && cd lem_in && make
-./lem-in < maps/[ONE_OF_THE_MAPS]
-```
 
 For example, if you execute maps/big, the program output will be :
 ![lem-in](https://i.ibb.co/7pSmxPM/Screen-Shot-2019-10-28-at-1-20-03-PM.png)
