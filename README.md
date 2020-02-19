@@ -19,8 +19,10 @@ The program recieves information about number of ants had to be leaded through p
 <img width="142" alt="screen shot 2017-07-16 at 7 23 13 pm" align="middle" src="https://user-images.githubusercontent.com/25576444/28254024-ea2c5eb6-6a5d-11e7-922c-5808975b2419.png" >
 
 Comments "##start" and "##end" are provided to show the start and end room information. We don't care about any other comments.
-
-For example, if you execute maps/big, the program output will be :
+**Example:
+```
+./lem-in < maps/big
+```
 ![lem-in](https://i.ibb.co/7pSmxPM/Screen-Shot-2019-10-28-at-1-20-03-PM.png)
 
 L0 <=> first ant ; L1 <=> second ant ; up to L99 <=> hundredth ant
