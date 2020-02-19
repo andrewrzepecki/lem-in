@@ -27,7 +27,8 @@ Comments "##start" and "##end" are necessary for defining the start and end poin
 ```
 ![lem-in](https://i.ibb.co/7pSmxPM/Screen-Shot-2019-10-28-at-1-20-03-PM.png)
 
-[ant_number-current_vetex]
+[ant_number-current_vertex]
+
 In the first line you have L0-99 which means the first ant goes to room "99", then L1-806 which means the second ant goes to room "806"... 
 
 The rules of lem-in state that there can be only one ant in a room at a time and one can only visit a vertex once, which caused superposition problems that were fixed using a variation of Edmond-Karp's algorithm and graph theory.
