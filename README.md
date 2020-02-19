@@ -10,7 +10,7 @@ Each vertex has a maximum capicity of one, so we used a variation of Edmund-Karp
 ## Installation and usage
 
 ```
-git clone https://github.com/barthelemyleveque/lem_in && cd lem_in && make
+git clone https://github.com/andrewrzepecki/lem-in && cd lem_in && make
 ./lem-in < maps/[ONE_OF_THE_MAPS]
 ```
 
